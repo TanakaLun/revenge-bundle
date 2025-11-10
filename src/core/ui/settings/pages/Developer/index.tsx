@@ -70,21 +70,21 @@ export default function Developer() {
                         />
                         <TableRow
                             label={dtConnected ? Strings.DISCONNECT_FROM_DEBUG_WEBSOCKET : Strings.CONNECT_TO_DEBUG_WEBSOCKET}
-                            subLabel={`Version ${DevToolsClient.version}`}
+                            subLabel={`版本 ${DevToolsClient.version}`}
                             icon={<TableRow.Icon source={findAssetId(dtConnected ? "DenyIcon" : "LinkIcon")} />}
                             onPress={() => dtConnected ? disconnectDt() : connectToDebugger(settings.debuggerUrl)}
                         />
                         {isReactDevToolsPreloaded() && <>
                             <TableRow
                                 label={rdtConnected ? Strings.DISCONNECT_FROM_REACT_DEVTOOLS : Strings.CONNECT_TO_REACT_DEVTOOLS}
-                                subLabel={`Version ${getReactDevToolsVersion()}`}
+                                subLabel={`版本 ${getReactDevToolsVersion()}`}
                                 icon={<TableRow.Icon source={findAssetId(rdtConnected ? "DenyIcon" : "StaffBadgeIcon")} />}
                                 onPress={() => rdtConnected ? disconnectRdt() : connectToReactDevTools(settings.debuggerUrl)}
                             />
                         </>}
                     </TableRowGroup>
                     {isLoaderConfigSupported() && <>
-                        <TableRowGroup title="Loader config">
+                        <TableRowGroup title="加载器配置">
                             <TableSwitchRow
                                 label={Strings.LOAD_FROM_CUSTOM_URL}
                                 subLabel={Strings.LOAD_FROM_CUSTOM_URL_DEC}
@@ -112,7 +112,7 @@ export default function Developer() {
                             />}
                         </TableRowGroup>
                     </>}
-                    <TableRowGroup title="Other">
+                    <TableRowGroup title="其他">
                         <TableRow
                             label={Strings.CLEAR_BUNDLE}
                             subLabel={Strings.CLEAR_BUNDLE_DESC}
@@ -148,13 +148,13 @@ export default function Developer() {
                             onPress={() => showSimpleActionSheet({
                                 key: "ErrorBoundaryTools",
                                 header: {
-                                    title: "Which ErrorBoundary do you want to trip?",
+                                    title: "您想要触发哪个错误边界？",
                                     icon: <TableRow.Icon style={{ marginRight: 8 }} source={findAssetId("WarningIcon")} />,
                                     onClose: () => hideActionSheet(),
                                 },
                                 options: [
                                     // @ts-expect-error
-                                    // Of course, to trigger an error, we need to do something incorrectly. The below will do!
+                                    // 当然，要触发错误，我们需要做一些不正确的事情。下面的代码就可以做到！
                                     { label: Strings.BUNNY, onPress: () => navigation.push("BUNNY_CUSTOM_PAGE", { render: () => <undefined /> }) },
                                     { label: "Discord", isDestructive: true, onPress: () => navigation.push("BUNNY_CUSTOM_PAGE", { noErrorBoundary: true }) },
                                 ],
@@ -174,7 +174,7 @@ export default function Developer() {
                                     onPress={async () => {
                                         if (rdtFileExists === CheckState.FALSE) {
                                             fs.downloadFile(RDT_EMBED_LINK, "preloads/reactDevtools.js")
-                                                .then(() => showToast("Successfully installed! A reload is required", findAssetId("DownloadIcon")));
+                                                .then(() => showToast("安装成功！需要重新加载", findAssetId("DownloadIcon")));
                                         } else if (rdtFileExists === CheckState.TRUE) {
                                             fs.removeFile("preloads/reactDevtools.js");
                                         }

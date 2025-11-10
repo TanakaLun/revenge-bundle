@@ -25,11 +25,11 @@ export default function Themes() {
                 p => p.data.authors?.map((a: Author) => a.name).join(", ") ?? ""
             ]}
             sortOptions={{
-                "Name (A-Z)": (a, b) => a.data.name.localeCompare(b.data.name),
-                "Name (Z-A)": (a, b) => b.data.name.localeCompare(a.data.name)
+            "名称 (A-Z)": (a, b) => a.name.localeCompare(b.name),
+            "名称 (Z-A)": (a, b) => b.name.localeCompare(a.name),
             }}
             installAction={{
-                label: "Install a theme",
+                label: "安装一个主题",
                 fetchFn: installTheme
             }}
             items={Object.values(themes)}
@@ -50,7 +50,7 @@ export default function Themes() {
                     <BottomSheetTitleHeader title="Options" />
                     <View style={{ paddingVertical: 20, gap: 12 }}>
                         <TableRadioGroup
-                            title="Override Theme Type"
+                            title="覆盖主题类型"
                             value={colorsPref.type ?? "auto"}
                             hasIcons={true}
                             onChange={type => {
@@ -63,7 +63,7 @@ export default function Themes() {
                             <TableRadioRow icon={<TableRowIcon source={findAssetId("ThemeLightIcon")} />} label="Light" value="light" />
                         </TableRadioGroup>
                         <TableRadioGroup
-                            title="Chat Background"
+                            title="聊天背景"
                             value={colorsPref.customBackground ?? "shown"}
                             hasIcons={true}
                             onChange={type => {
