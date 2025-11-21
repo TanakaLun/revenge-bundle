@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/TanakaLun/revenge-bundle/compare/v1.0.0...v1.0.1) (2025-11-21)
+
+
+### Bug Fixes
+
+* Updated Chinese translation ([49cffe8](https://github.com/TanakaLun/revenge-bundle/commit/49cffe8e7e54ee72bfaf4f07ac4612aaeb366e78))
+
 # 1.0.0 (2025-11-21)
 
 
