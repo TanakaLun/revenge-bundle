@@ -18,8 +18,8 @@ async function initializeRevenge() {
 
         console.log(stack ?? e?.toString?.() ?? e);
         alert([
-            "Failed to load Revenge!\n",
-            `Build Number: ${ClientInfoManager.getConstants().Build}`,
+            "Revenge加载失败!\n",
+            `版本号: ${ClientInfoManager.getConstants().Build}`,
             `Revenge: ${version}`,
             stack || e?.toString?.(),
         ].join("\n"));
