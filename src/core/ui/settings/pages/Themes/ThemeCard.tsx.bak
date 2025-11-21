@@ -12,7 +12,7 @@ function selectAndApply(value: boolean, theme: VdThemeInfo) {
     try {
         selectTheme(value ? theme : null);
     } catch (e: any) {
-        console.error("选择和应用时出错,", e);
+        console.error("Error while selectAndApply,", e);
     }
 }
 
@@ -21,7 +21,7 @@ export default function ThemeCard({ item: theme }: CardWrapper<VdThemeInfo>) {
 
     const [removed, setRemoved] = React.useState(false);
 
-    // 由于 React™ 的原因需要这个
+    // This is needed because of React™
     if (removed) return null;
 
     const { authors } = theme.data;
@@ -29,8 +29,8 @@ export default function ThemeCard({ item: theme }: CardWrapper<VdThemeInfo>) {
     return (
         <AddonCard
             headerLabel={theme.data.name}
-            headerSublabel={authors ? `作者 ${authors.map(i => i.name).join(", ")}` : ""}
-            descriptionLabel={theme.data.description ?? "无描述。"}
+            headerSublabel={authors ? `by ${authors.map(i => i.name).join(", ")}` : ""}
+            descriptionLabel={theme.data.description ?? "No description."}
             toggleType={!settings.safeMode?.enabled ? "radio" : undefined}
             toggleValue={() => themes[theme.id].selected}
             onToggleChange={(v: boolean) => {

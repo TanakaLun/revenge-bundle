@@ -38,7 +38,7 @@ function InstallButton(props: { id: string; }) {
     return <Button
         size="sm"
         loading={installationState.isPending}
-        text={!installed ? "Install" : "Uninstall"}
+        text={!installed ? "安装" : "卸载"}
         onPress={() => installationState.mutate({ install: !installed })}
         variant={!installed ? "primary" : "destructive"}
         icon={findAssetId(!installed ? "DownloadIcon" : "TrashIcon")}
@@ -52,7 +52,7 @@ function TrailingButtons(props: { id: string; }) {
             onPress={() => {
                 showSheet("plugin-info", () => {
                     return <ActionSheet>
-                        <TableRowGroup title="Plugin Info">
+                        <TableRowGroup title="插件信息">
                             <TableRow label="ID" subLabel={props.id} />
                         </TableRowGroup>
                     </ActionSheet>;
@@ -77,7 +77,7 @@ function PluginCard(props: { manifest: BunnyPluginManifestInternal; }) {
                             {display.name}
                         </Text>
                         <Text variant="text-md/semibold" color="text-muted">
-                            by {display.authors?.map(a => a.name).join(", ") || "Unknown"} ({version})
+                            作者 {display.authors?.map(a => a.name).join(", ") || "未知"} ({version})
                         </Text>
                     </View>
                     <View>
@@ -96,7 +96,7 @@ function BrowserPage() {
     const navigation = NavigationNative.useNavigation();
     useEffect(() => {
         navigation.setOptions({
-            title: "Plugin Browser",
+            title: "插件浏览器",
             headerRight: () => <IconButton
                 size="sm"
                 variant="secondary"
@@ -122,14 +122,14 @@ function BrowserPage() {
         }}>
             <Card style={{ gap: 8 }}>
                 <Text style={{ textAlign: "center" }} variant="heading-lg/bold">
-                    An error occured while fetching the repository!
+                    获取仓库时发生错误！
                 </Text>
                 <Text style={{ textAlign: "center" }} variant="text-sm/medium" color="text-muted">
                     {error instanceof Error ? error.message : String(error)}
                 </Text>
                 <Button
                     size="lg"
-                    text="Refetch"
+                    text="重新获取"
                     onPress={refetch}
                     icon={findAssetId("RetryIcon")}
                 />
@@ -155,23 +155,23 @@ function AddRepositoryAlert() {
     const [value, setValue] = useState("");
 
     return <AlertModal
-        title="Add Repository"
-        content="Enter the URL of the repository you want to add."
+        title="添加仓库"
+        content="输入您要添加的仓库URL。"
         extraContent={<TextInput
             value={value}
             onChange={setValue}
             placeholder="https://example.com/repo.json" />}
         actions={<AlertActions>
             <AlertActionButton
-                text="Add"
+                text="添加"
                 variant="primary"
                 disabled={!isValidHttpUrl(value)}
                 onPress={async () => {
                     try {
                         await updateRepository(value);
-                        showToast("Added repository!", findAssetId("CheckmarkSmallIcon"));
+                        showToast("已添加仓库!", findAssetId("CheckmarkSmallIcon"));
                     } catch (e) {
-                        showToast("Failed to add repository!", findAssetId("XSmallIcon"));
+                        showToast("添加仓库失败!", findAssetId("XSmallIcon"));
                     } finally {
                         dismissAlert("bunny-add-plugin-repository");
                         showSheet("plugin-browser-options", PluginBrowserOptions);
@@ -182,12 +182,12 @@ function AddRepositoryAlert() {
 
 function PluginBrowserOptions() {
     return <ActionSheet>
-        <TableRowGroup title="Repositories">
+        <TableRowGroup title="仓库">
             {Object.keys(pluginRepositories).map(url => {
                 return <RepositoryRow key={url} url={url} />;
             })}
             <TableRow
-                label="Add Repository..."
+                label="添加仓库..."
                 icon={<TableRow.Icon source={findAssetId("PlusMediumIcon")} />}
                 onPress={() => {
                     openAlert("bunny-add-plugin-repository", <AddRepositoryAlert />);
@@ -203,7 +203,7 @@ function RepositoryRow(props: { url: string; }) {
 
     return (
         <TableRow
-            label={isOfficial ? "Bunny's Repository" : (repo.$meta?.name ?? "Unknown")}
+            label={isOfficial ? "Bunny 官方仓库" : (repo.$meta?.name ?? "未知")}
             subLabel={props.url}
             trailing={(
                 <Stack direction="horizontal">
@@ -223,18 +223,18 @@ function RepositoryRow(props: { url: string; }) {
                         icon={findAssetId("TrashIcon")}
                         onPress={() => {
                             openAlert("bunny-remove-repository", <AlertModal
-                                title="Remove Repository"
-                                content="Are you sure you want to remove this repository?"
+                                title="移除仓库"
+                                content="您确定要移除此仓库吗？"
                                 extraContent={<Card>
                                     <Text variant="text-md/normal">{props.url}</Text>
                                 </Card>}
                                 actions={<AlertActions>
                                     <AlertActionButton
-                                        text="Remove"
+                                        text="移除"
                                         variant="destructive"
                                         onPress={async () => {
                                             await deleteRepository(props.url);
-                                            showToast("Removed repository!", findAssetId("Trash"));
+                                            showToast("已移除仓库!", findAssetId("Trash"));
                                             dismissAlert("bunny-remove-repository");
                                         }}
                                     />

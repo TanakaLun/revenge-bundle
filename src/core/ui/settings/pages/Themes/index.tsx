@@ -25,11 +25,11 @@ export default function Themes() {
                 p => p.data.authors?.map((a: Author) => a.name).join(", ") ?? ""
             ]}
             sortOptions={{
-                "Name (A-Z)": (a, b) => a.data.name.localeCompare(b.data.name),
-                "Name (Z-A)": (a, b) => b.data.name.localeCompare(a.data.name)
+                "名称 (A-Z)": (a, b) => a.data.name.localeCompare(b.data.name),
+                "名称 (Z-A)": (a, b) => b.data.name.localeCompare(a.data.name)
             }}
             installAction={{
-                label: "Install a theme",
+                label: "安装主题",
                 fetchFn: installTheme
             }}
             items={Object.values(themes)}
@@ -47,10 +47,10 @@ export default function Themes() {
                 useObservable([colorsPref]);
 
                 return <ActionSheet>
-                    <BottomSheetTitleHeader title="Options" />
+                    <BottomSheetTitleHeader title="选项" />
                     <View style={{ paddingVertical: 20, gap: 12 }}>
                         <TableRadioGroup
-                            title="Override Theme Type"
+                            title="覆盖主题类型"
                             value={colorsPref.type ?? "auto"}
                             hasIcons={true}
                             onChange={type => {
@@ -58,20 +58,20 @@ export default function Themes() {
                                 getCurrentTheme()?.data && updateBunnyColor(getCurrentTheme()!.data!, { update: true });
                             }}
                         >
-                            <TableRadioRow icon={<TableRowIcon source={findAssetId("RobotIcon")} />} label="Auto" value="auto" />
-                            <TableRadioRow icon={<TableRowIcon source={findAssetId("ThemeDarkIcon")} />} label="Dark" value="dark" />
-                            <TableRadioRow icon={<TableRowIcon source={findAssetId("ThemeLightIcon")} />} label="Light" value="light" />
+                            <TableRadioRow icon={<TableRowIcon source={findAssetId("RobotIcon")} />} label="自动" value="auto" />
+                            <TableRadioRow icon={<TableRowIcon source={findAssetId("ThemeDarkIcon")} />} label="深色" value="dark" />
+                            <TableRadioRow icon={<TableRowIcon source={findAssetId("ThemeLightIcon")} />} label="浅色" value="light" />
                         </TableRadioGroup>
                         <TableRadioGroup
-                            title="Chat Background"
+                            title="聊天背景"
                             value={colorsPref.customBackground ?? "shown"}
                             hasIcons={true}
                             onChange={type => {
                                 colorsPref.customBackground = type !== "shown" ? type as "hidden" : null;
                             }}
                         >
-                            <TableRadioRow icon={<TableRowIcon source={findAssetId("ImageIcon")} />} label="Show" value={"shown"} />
-                            <TableRadioRow icon={<TableRowIcon source={findAssetId("DenyIcon")} />} label="Hide" value={"hidden"} />
+                            <TableRadioRow icon={<TableRowIcon source={findAssetId("ImageIcon")} />} label="显示" value={"shown"} />
+                            <TableRadioRow icon={<TableRowIcon source={findAssetId("DenyIcon")} />} label="隐藏" value={"hidden"} />
                         </TableRadioGroup>
                     </View>
                 </ActionSheet>;

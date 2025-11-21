@@ -26,7 +26,7 @@ export default function PluginInfoActionSheet({ plugin, navigation }: PluginInfo
                 <View style={{ marginLeft: "auto" }}>
                     {SettingsComponent && <Button
                         size="md"
-                        text="Configure"
+                        text="配置"
                         variant="secondary"
                         icon={findAssetId("WrenchIcon")}
                         onPress={() => {

@@ -18,11 +18,11 @@ const { AlertModal, AlertActionButton } = lazyDestructure(() => findByProps("Ale
 
 function promptDetachConfirmationForThen(fontName: string | undefined, cb: () => void) {
     if (fontName && fonts[fontName].source) openAlert("revenge-fonts-detach-source-confirmation", <AlertModal
-        title="Detach font pack URL?"
-        content="You need to detach the font pack URL from this font pack before you can manually edit its font entries. Do you want to detach the font pack URL?"
+        title="分离字体包URL？"
+        content="您需要从此字体包分离字体包URL，然后才能手动编辑其字体条目。您要分离字体包URL吗？"
         actions={
             <Stack>
-                <AlertActionButton text="Detach" variant="destructive" onPress={() => {
+                <AlertActionButton text="分离" variant="destructive" onPress={() => {
                     delete fonts[fontName!].source;
                     cb();
                 }} />
@@ -112,7 +112,7 @@ function JsonFontImporter({ fonts, setName, setSource }: {
         <TextInput
             autoFocus
             size="md"
-            label={"Font Link"}
+            label={"字体链接"}
             value={fontLink}
             placeholder={"https://link.to/font/pack.json"}
             onChange={setFontLink}
@@ -122,7 +122,7 @@ function JsonFontImporter({ fonts, setName, setSource }: {
         <Button
             size="md"
             variant="primary"
-            text={"Import"}
+            text={"导入"}
             disabled={!fontLink || saving}
             loading={saving}
             onPress={() => {
@@ -158,14 +158,14 @@ function EntryEditorActionSheet(props: {
         <TextInput
             autoFocus
             size="md"
-            label={"Family Name (to override)"}
+            label={"字体族名称 (要覆盖的)"}
             value={familyName}
             placeholder={"ggsans-Bold"}
             onChange={setFamilyName}
         />
         <TextInput
             size="md"
-            label={"Font URL"}
+            label={"字体URL"}
             value={fontUrl}
             placeholder={"https://link.to/the/font.ttf"}
             onChange={setFontUrl}
@@ -173,7 +173,7 @@ function EntryEditorActionSheet(props: {
         <Button
             size="md"
             variant="primary"
-            text={"Apply"}
+            text={"应用"}
             onPress={() => {
                 delete props.fontEntries[props.name];
                 props.fontEntries[familyName] = fontUrl;
@@ -194,7 +194,7 @@ function promptActionSheet(
             default: () => (
                 <ErrorBoundary>
                     <ActionSheet>
-                        <BottomSheetTitleHeader title="Import Font" />
+                        <BottomSheetTitleHeader title="导入字体" />
                         <Component fonts={fontEntries} {...props} />
                     </ActionSheet>
                 </ErrorBoundary>
@@ -217,7 +217,7 @@ function NewEntryRow({ fontName, fontEntry }: { fontName: string | undefined, fo
                 isRound
                 size="md"
                 label={nameSet ? nameRef.current : void 0}
-                placeholder={nameSet ? "https://path.to/the/file.ttf" : "PostScript name (e.g. ggsans-Bold)"}
+                placeholder={nameSet ? "https://path.to/the/file.ttf" : "PostScript名称 (例如: ggsans-Bold)"}
                 leadingIcon={() => nameSet ? null : <TableRow.Icon source={findAssetId("PlusSmallIcon")} />}
                 leadingText={nameSet ? nameRef.current : ""}
                 onChange={(text: string) => (nameSet ? urlRef : nameRef).current = text}
@@ -244,7 +244,7 @@ function NewEntryRow({ fontName, fontEntry }: { fontName: string | undefined, fo
                     try {
                         const parsedUrl = new URL(urlRef.current);
                         if (!parsedUrl.protocol || !parsedUrl.host) {
-                            throw "Invalid URL";
+                            throw "无效的URL";
                         }
 
                         fontEntry[nameRef.current] = urlRef.current;
@@ -282,7 +282,7 @@ export default function FontEditor(props: {
     return <ScrollView style={{ flex: 1 }} contentContainerStyle={{ paddingBottom: 38 }}>
         <Stack style={{ paddingVertical: 24, paddingHorizontal: 12 }} spacing={12}>
             {!props.name
-                ? <TableRowGroup title="Import">
+                ? <TableRowGroup title="导入">
                     {/** @ts-ignore */}
                     {getCurrentTheme()?.data?.fonts && <TableRow
                         label={Strings.LABEL_EXTRACT_FONTS_FROM_THEME}
@@ -291,15 +291,15 @@ export default function FontEditor(props: {
                         onPress={() => promptActionSheet(RevengeFontsExtractor, fontEntries, { setName })}
                     />}
                     <TableRow
-                        label={"Import font entries from a link"}
-                        subLabel={"Directly import from a link with a pre-configured JSON file"}
+                        label={"从链接导入字体条目"}
+                        subLabel={"直接从包含预配置JSON文件的链接导入"}
                         icon={<TableRow.Icon source={findAssetId("LinkIcon")} />}
                         onPress={() => promptActionSheet(JsonFontImporter, fontEntries, { setName, setSource })}
                     />
                 </TableRowGroup>
-                : <TableRowGroup title="Actions">
+                : <TableRowGroup title="操作">
                     <TableRow
-                        label={"Refetch fonts from source"}
+                        label={"从源重新获取字体"}
                         icon={<TableRow.Icon source={findAssetId("RetryIcon")} />}
                         onPress={async () => {
                             await updateFont(fonts[props.name!]);
@@ -308,7 +308,7 @@ export default function FontEditor(props: {
                     />
                     <TableRow
                         variant="danger"
-                        label={"Delete font pack"}
+                        label={"删除字体包"}
                         icon={<TableRow.Icon variant="danger" source={findAssetId("TrashIcon")} />}
                         onPress={() => removeFont(props.name!).then(() => navigation.goBack())}
                     />
@@ -323,10 +323,10 @@ export default function FontEditor(props: {
             {props.name && fonts[props.name].source && <TextInput
                 size="lg"
                 value={source}
-                label="Font Pack URL"
+                label="字体包URL"
                 onChange={setSource}
             />}
-            <TableRowGroup title="Font Entries">
+            <TableRowGroup title="字体条目">
                 {Object.entries(fontEntries).map(([name, url], index) => {
                     const error = errors?.[index];
 
@@ -363,14 +363,14 @@ export default function FontEditor(props: {
                 })}
                 <TableRow label={<NewEntryRow fontName={props.name} fontEntry={fontEntries} />} />
             </TableRowGroup>
-            {errors && <Text variant='text-sm/medium' color='text-danger'>Some font entries cannot be imported. Please modify the entries and try again.</Text>}
+            {errors && <Text variant='text-sm/medium' color='text-danger'>某些字体条目无法导入。请修改条目后重试。</Text>}
             <View style={{ flexDirection: "row", justifyContent: "flex-end", bottom: 0, left: 0 }}>
                 <Button
                     size="lg"
                     loading={importing}
                     disabled={importing || !name || Object.keys(fontEntries).length === 0}
                     variant="primary"
-                    text={props.name ? "Save" : "Import"}
+                    text={props.name ? "保存" : "导入"}
                     onPress={async () => {
                         if (!name) return;
 

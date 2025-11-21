@@ -73,15 +73,15 @@ export default function General() {
                             openAlert(
                                 "bunny-reload-safe-mode",
                                 <AlertModal
-                                    title="Reload now?"
-                                    content={!to ? "All add-ons will load normally." : "All add-ons will be temporarily disabled upon reload."}
+                                    title="立即重新加载？"
+                                    content={!to ? "所有附加组件将正常加载。" : "重新加载后所有附加组件将被暂时禁用。"}
                                     actions={<AlertActions>
                                         <AlertActionButton
-                                            text="Reload Now"
+                                            text="立即重新加载"
                                             variant="destructive"
                                             onPress={() => BundleUpdaterManager.reload()}
                                         />
-                                        <AlertActionButton text="Later" variant="secondary" />
+                                        <AlertActionButton text="稍后" variant="secondary" />
                                     </AlertActions>}
                                 />
                             );

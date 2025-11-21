@@ -42,10 +42,10 @@ function PluginPage(props: PluginPageProps) {
             ).join() || ""
         ]}
         sortOptions={{
-            "Name (A-Z)": (a, b) => a.name.localeCompare(b.name),
-            "Name (Z-A)": (a, b) => b.name.localeCompare(a.name),
-            "Enabled": (a, b) => Number(b.isEnabled()) - Number(a.isEnabled()),
-            "Disabled": (a, b) => Number(a.isEnabled()) - Number(b.isEnabled())
+            "名称 (A-Z)": (a, b) => a.name.localeCompare(b.name),
+            "名称 (Z-A)": (a, b) => b.name.localeCompare(a.name),
+            "已启用": (a, b) => Number(b.isEnabled()) - Number(a.isEnabled()),
+            "已禁用": (a, b) => Number(a.isEnabled()) - Number(b.isEnabled())
 
         }}
         safeModeHint={{ message: Strings.SAFE_MODE_NOTICE_PLUGINS }}
@@ -76,9 +76,9 @@ export default function Plugins() {
                 <Card border="strong">
                     <View style={{ flex: 1, justifyContent: "center", alignItems: "center", flexDirection: "row" }}>
                         <View style={{ gap: 6, flexShrink: 1 }}>
-                            <Text variant="heading-md/bold">Unproxied Plugins Found</Text>
+                            <Text variant="heading-md/bold">发现未代理的插件</Text>
                             <Text variant="text-sm/medium" color="text-muted">
-                                Plugins installed from unproxied sources may run unverified code in this app without your awareness.
+                                从未代理来源安装的插件可能在此应用中运行未经验证的代码而您不知情。
                             </Text>
                         </View>
                         <View style={{ marginLeft: "auto" }}>
@@ -89,7 +89,7 @@ export default function Plugins() {
                                 style={{ marginLeft: 8 }}
                                 onPress={() => {
                                     navigation.push("BUNNY_CUSTOM_PAGE", {
-                                        title: "Unproxied Plugins",
+                                        title: "未代理的插件",
                                         render: () => {
                                             return <FlashList
                                                 data={unproxiedPlugins}
@@ -111,11 +111,11 @@ export default function Plugins() {
         ListFooterComponent={() => __DEV__ && (
             <View style={{ alignItems: "center", justifyContent: "center", paddingTop: 16, gap: 12 }}><Button
                 size="lg"
-                text="Browse Plugins"
+                text="浏览插件"
                 icon={findAssetId("CompassIcon")}
                 onPress={() => {
                     navigation.push("BUNNY_CUSTOM_PAGE", {
-                        title: "Plugin Browser",
+                        title: "插件浏览器",
                         render: React.lazy(() => import("../PluginBrowser")),
                     });
                 }}
@@ -123,25 +123,25 @@ export default function Plugins() {
             </View>
         )}
         installAction={{
-            label: "Install a plugin",
+            label: "安装插件",
             fetchFn: async (url: string) => {
                 if (!url.startsWith(VD_PROXY_PREFIX) && !url.startsWith(BUNNY_PROXY_PREFIX) && !settings.developerSettings) {
                     openAlert("bunny-plugin-unproxied-confirmation", <AlertModal
-                        title="Hold On!"
-                        content="You're trying to install a plugin from an unproxied external source. This means you're trusting the creator to run their code in this app without your knowledge. Are you sure you want to continue?"
+                        title="请稍等！"
+                        content="您正在尝试从非代理的外部来源安装插件。这意味着您信任创建者在此应用中运行他们的代码而您不知情。您确定要继续吗？"
                         extraContent={<Card><Text variant="text-md/bold">{url}</Text></Card>}
                         actions={<AlertActions>
-                            <AlertActionButton text="Continue" variant="primary" onPress={() => {
+                            <AlertActionButton text="继续" variant="primary" onPress={() => {
                                 VdPluginManager.installPlugin(url)
                                     .then(() => showToast(Strings.TOASTS_INSTALLED_PLUGIN, findAssetId("DownloadIcon")))
                                     .catch(e => openAlert("bunny-plugin-install-failed", <AlertModal
-                                        title="Install Failed"
-                                        content={`Unable to install plugin from '${url}':`}
+                                        title="安装失败"
+                                        content={`无法从 '${url}' 安装插件：`}
                                         extraContent={<Card><Text variant="text-md/normal">{e instanceof Error ? e.message : String(e)}</Text></Card>}
-                                        actions={<AlertActionButton text="Okay" variant="primary" />}
+                                        actions={<AlertActionButton text="确定" variant="primary" />}
                                     />));
                             }} />
-                            <AlertActionButton text="Cancel" variant="secondary" />
+                            <AlertActionButton text="取消" variant="secondary" />
                         </AlertActions>}
                     />);
                 } else {

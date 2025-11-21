@@ -19,17 +19,17 @@ export default function Fonts() {
             title={Strings.FONTS}
             searchKeywords={["name", "description"]}
             sortOptions={{
-                "Name (A-Z)": (a, b) => a.name.localeCompare(b.name),
-                "Name (Z-A)": (a, b) => b.name.localeCompare(a.name)
+                "名称 (A-Z)": (a, b) => a.name.localeCompare(b.name),
+                "名称 (Z-A)": (a, b) => b.name.localeCompare(a.name)
             }}
             items={Object.values(fonts)}
             safeModeHint={{ message: Strings.SAFE_MODE_NOTICE_FONTS }}
             CardComponent={FontCard}
             installAction={{
-                label: "Install a font",
+                label: "安装字体",
                 onPress: () => {
                     navigation.push("BUNNY_CUSTOM_PAGE", {
-                        title: "Import Font",
+                        title: "导入字体",
                         render: () => <FontEditor />
                     });
                 }

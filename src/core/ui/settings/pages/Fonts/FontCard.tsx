@@ -44,7 +44,6 @@ function FontPreview({ font }: { font: FontDefinition; }) {
     }, [typeface]);
 
     return (
-        // This does not work, actually :woeis:
         <View style={{ height: 64 }}>
             {typeface
                 ? <Skia.Canvas style={{ height: 64 }}>
@@ -52,7 +51,7 @@ function FontPreview({ font }: { font: FontDefinition; }) {
                 </Skia.Canvas>
                 : <View style={{ justifyContent: "center", alignItems: "center" }}>
                     <Text color="text-muted" variant="heading-lg/semibold">
-                        Loading...
+                        加载中...
                     </Text>
                 </View>}
         </View>
@@ -73,7 +72,7 @@ export default function FontCard({ item: font }: CardWrapper<FontDefinition>) {
                         <Text variant="heading-lg/semibold">
                             {font.name}
                         </Text>
-                        {/* TODO: Text wrapping doesn't work well */}
+                        {/* TODO: 文本换行效果不好 */}
                         {/* <Text color="text-muted" variant="text-sm/semibold">
                             {font.description}
                         </Text> */}
@@ -83,7 +82,7 @@ export default function FontCard({ item: font }: CardWrapper<FontDefinition>) {
                             <IconButton
                                 onPress={() => {
                                     navigation.push("BUNNY_CUSTOM_PAGE", {
-                                        title: "Edit Font",
+                                        title: "编辑字体",
                                         render: () => <FontEditor name={font.name} />
                                     });
                                 }}
@@ -95,12 +94,12 @@ export default function FontCard({ item: font }: CardWrapper<FontDefinition>) {
                             <Button
                                 size="sm"
                                 variant={selected ? "secondary" : "primary"}
-                                text={selected ? "Unapply" : "Apply"}
+                                text={selected ? "取消应用" : "应用"}
                                 onPress={async () => {
                                     await selectFont(selected ? null : font.name);
                                     showConfirmationAlert({
                                         title: Strings.HOLD_UP,
-                                        content: "Reload Discord to apply changes?",
+                                        content: "重新加载 Discord 以应用更改？",
                                         confirmText: Strings.RELOAD,
                                         cancelText: Strings.CANCEL,
                                         confirmColor: "red",

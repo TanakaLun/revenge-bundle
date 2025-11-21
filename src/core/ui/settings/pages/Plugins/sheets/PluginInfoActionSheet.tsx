@@ -28,27 +28,27 @@ export default function PluginInfoActionSheet({ plugin, navigation }: PluginInfo
                 <ContextMenu
                     items={[
                         {
-                            label: "Details",
+                            label: "详情",
                             iconSource: findAssetId("CircleInformationIcon-primary"),
                             action: () => {
                             }
                         },
                         // {
-                        //     label: true ? "Disable Updates" : "Enable Updates",
+                        //     label: true ? "禁用更新" : "启用更新",
                         //     iconSource: true ? findAssetId("ClockXIcon") : findAssetId("ClockIcon"),
                         //     action: () => {
 
                         //     }
                         // },
                         {
-                            label: "Clear Data",
+                            label: "清除数据",
                             iconSource: findAssetId("FileIcon"),
                             variant: "destructive",
                             action: () => {
                             }
                         },
                         {
-                            label: "Uninstall",
+                            label: "卸载",
                             iconSource: findAssetId("TrashIcon"),
                             variant: "destructive",
                             action: () => {
@@ -66,7 +66,7 @@ export default function PluginInfoActionSheet({ plugin, navigation }: PluginInfo
             </View>
             <View style={{ flexDirection: "row", justifyContent: "space-around", alignContent: "center" }}>
                 <PluginInfoIconButton
-                    label="Configure"
+                    label="配置"
                     variant="secondary"
                     disabled={!plugin.getPluginSettingsComponent()}
                     icon={findAssetId("WrenchIcon")}
@@ -78,7 +78,7 @@ export default function PluginInfoActionSheet({ plugin, navigation }: PluginInfo
                     }}
                 />
                 <PluginInfoIconButton
-                    label="Refetch"
+                    label="重新获取"
                     variant="secondary"
                     icon={findAssetId("RetryIcon")}
                     onPress={() => {
@@ -86,7 +86,7 @@ export default function PluginInfoActionSheet({ plugin, navigation }: PluginInfo
                     }}
                 />
                 <PluginInfoIconButton
-                    label="Copy URL"
+                    label="复制URL"
                     variant="secondary"
                     icon={findAssetId("LinkIcon")}
                     onPress={() => {
@@ -95,7 +95,7 @@ export default function PluginInfoActionSheet({ plugin, navigation }: PluginInfo
             </View>
             <Card>
                 <Text variant="text-md/semibold" color="text-primary" style={{ marginBottom: 4 }}>
-                    Description
+                    描述
                 </Text>
                 <Text variant="text-md/medium">
                     {plugin.description}
