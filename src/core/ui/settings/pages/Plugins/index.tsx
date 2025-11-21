@@ -78,7 +78,7 @@ export default function Plugins() {
                         <View style={{ gap: 6, flexShrink: 1 }}>
                             <Text variant="heading-md/bold">发现未代理的插件</Text>
                             <Text variant="text-sm/medium" color="text-muted">
-                                从未代理来源安装的插件可能在此应用中运行未经验证的代码而您不知情。
+                                从未代理来源安装的插件可能在您不知情的情况下在此应用中运行未经验证的代码
                             </Text>
                         </View>
                         <View style={{ marginLeft: "auto" }}>
