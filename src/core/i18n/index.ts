@@ -8,13 +8,51 @@ const IntlMessageFormat = findByNameLazy("MessageFormat") as typeof import("intl
 
 type I18nKey = keyof typeof langDefault;
 
-// 直接使用默认字符串，不进行动态加载
-export const Strings = langDefault as Record<I18nKey, string>;
+let _currentLocale: string | null = null;
+let _lastSetLocale: string | null = null;
 
-// 保留 FluxDispatcher 订阅但不执行任何操作
+const _loadedLocale = new Set<string>();
+const _loadedStrings = {} as Record<string, typeof langDefault>;
+
+export const Strings = new Proxy({}, {
+    get: (_t, prop: keyof typeof langDefault) => {
+        if (_currentLocale && _loadedStrings[_currentLocale]?.[prop]) {
+            return _loadedStrings[_currentLocale]?.[prop];
+        }
+        return langDefault[prop];
+    }
+}) as Record<I18nKey, string>;
+
 export function initFetchI18nStrings() {
-    const cb = () => {
-        // 不执行任何操作，保持默认字符串
+    const cb = ({ locale }: { locale: string; }) => {
+        const languageMap = {
+            "es-ES": "es",
+            "es-419": "es_419",
+            "zh-TW": "zh-Hant",
+            "zh-CN": "zh-Hans",
+            "pt-PT": "pt",
+            "pt-BR": "pt_BR",
+            "sv-SE": "sv"
+        } as Record<string, string>;
+
+        const resolvedLocale = _lastSetLocale = languageMap[locale] ?? locale;
+
+        if (resolvedLocale.startsWith("en-")) {
+            _currentLocale = null;
+            return;
+        }
+
+        if (!_loadedLocale.has(resolvedLocale)) {
+            _loadedLocale.add(resolvedLocale);
+
+            fetch(`https://raw.githubusercontent.com/pyoncord/i18n/main/resources/${resolvedLocale}/bunny.json`)
+                .then(r => r.json())
+                .then(strings => _loadedStrings[resolvedLocale] = strings)
+                .then(() => resolvedLocale === _lastSetLocale && (_currentLocale = resolvedLocale))
+                .catch(e => console.error(`An error occured while fetching strings for ${resolvedLocale}: ${e}`));
+        } else {
+            _currentLocale = resolvedLocale;
+        }
     };
 
     FluxDispatcher.subscribe("I18N_LOAD_SUCCESS", cb);
